@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -38,8 +38,5 @@
   "exclude": [
     "node_modules"
   ]
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> dd70800d7530df5ea803eaccfb2bfb3b1ebccf3d
