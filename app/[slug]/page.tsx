@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   const industry = getIndustryBySlug(params.slug);
   if (!industry) return {};
 
-  const url = `https://www.https://www.futureclicks.in/${industry.slug}`;
+  const url = `https://www.futureclicks.in/${industry.slug}`;
   return {
     title: industry.metaTitle,
     description: industry.metaDescription,
@@ -48,7 +48,7 @@ export default function IndustryRoute({ params }: { params: { slug: string } }) 
     provider: {
       '@type': 'Organization',
       name: agency.name,
-      url: 'https://www.https://www.futureclicks.in',
+      url: 'https://www.futureclicks.in',
       telephone: agency.phone,
     },
     areaServed: 'Mumbai, India',

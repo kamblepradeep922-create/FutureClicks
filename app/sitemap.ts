@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { industries } from '@/lib/industries';
 
-const baseUrl = 'https://www.https://www.futureclicks.in';
+const baseUrl = 'https://www.futureclicks.in';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
