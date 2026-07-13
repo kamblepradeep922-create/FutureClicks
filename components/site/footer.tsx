@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import {
   Phone, Mail, MapPin, Instagram, Facebook, Linkedin, Twitter, Youtube,
-  ArrowRight, Send, CheckCircle2,
+  ArrowRight, Send, CheckCircle2, Loader2, AlertCircle,
 } from 'lucide-react';
 import { agency, navLinks, services } from '@/lib/site-data';
+import { supabase } from '@/lib/supabase-client';
 
 const socials = [
   { icon: Instagram, href: agency.social.instagram, label: 'Instagram' },
@@ -17,14 +18,32 @@ const socials = [
 
 export function Footer() {
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
-  const subscribe = (e: React.FormEvent) => {
+  const subscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 4000);
+    setStatus('loading');
+    try {
+      const { error } = await supabase.from('newsletter_subscribers').insert({
+        email: email.trim(),
+        source: 'footer',
+      });
+      if (error) {
+        if (error.code === '23505') {
+          setStatus('success');
+        } else {
+          throw error;
+        }
+      } else {
+        setStatus('success');
+      }
+      setEmail('');
+      setTimeout(() => setStatus('idle'), 4000);
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
   };
 
   return (
@@ -52,10 +71,15 @@ export function Footer() {
             />
             <button
               type="submit"
-              className="group flex h-12 items-center justify-center gap-2 rounded-full bg-brand-blue px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-blue-dark"
+              disabled={status === 'loading'}
+              className="group flex h-12 items-center justify-center gap-2 rounded-full bg-brand-blue px-6 text-sm font-semibold text-white transition-colors hover:bg-brand-blue-dark disabled:opacity-70"
             >
-              {subscribed ? (
+              {status === 'loading' ? (
+                <><Loader2 className="h-5 w-5 animate-spin" /> Subscribing...</>
+              ) : status === 'success' ? (
                 <><CheckCircle2 className="h-5 w-5" /> Subscribed!</>
+              ) : status === 'error' ? (
+                <><AlertCircle className="h-5 w-5" /> Try again</>
               ) : (
                 <>Subscribe <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" /></>
               )}
@@ -69,7 +93,7 @@ export function Footer() {
           <div className="lg:col-span-2">
             <a href="/" className="flex items-center gap-2.5">
               <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-brand-blue to-brand-cyan text-white">
-                <span className="font-heading text-xl font-bold">F</span>
+                <span className="font-heading text-xl font-bold">G</span>
               </span>
               <span className="flex flex-col leading-none">
                 <span className="font-heading text-base font-bold tracking-wide">{agency.name}</span>

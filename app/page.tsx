@@ -20,7 +20,7 @@ const jsonLd = {
   '@type': 'ProfessionalService',
   name: agency.name,
   description: agency.tagline,
-  url: 'https://www.futureclicks.agency',
+  url: 'https://www.https://www.futureclicks.in',
   telephone: agency.phone,
   email: agency.email,
   address: {

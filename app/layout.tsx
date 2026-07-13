@@ -10,7 +10,7 @@ const poppins = Poppins({
   display: 'swap',
 });
 
-const siteUrl = 'https://www.futureclicks.agency';
+const siteUrl = 'https://www.https://www.futureclicks.in';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
